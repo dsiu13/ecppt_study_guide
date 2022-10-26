@@ -15,7 +15,7 @@
 
  - *Size will be denoted by the character preceding the naming convention.
 
-| Register Size  | Accumulator  | Counter | Data | Base | Register | Stack Pointer | Base Pointer | Source | Destination
+| Register Size  | Accumulator  | Counter | Data | Base | Register | Stack Pointer | Base Pointer | Source | Destination |
 |---|---|---|---|---|---|---|---|---|
 | 64-Bit: R | RAX | RCX | RDX | RBX | RSP | RBP | RSI | RDI |
 | 32-Bit: E  |  |  |  | |  |  |  |
