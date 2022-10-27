@@ -72,3 +72,26 @@
 | free     | Releases memory blocks back to system                                 |
 | sbrk     | Adjusts the program break value by adding a possibly negative size    |
 | brk      | Sets the break value to the value of a pointer                        |
+
+#### Stack
+- Last in First Out
+- Used for saving a function's return addresses, and passing function args, and storing local vars.
+- The stack grows downward towards lower memory addresses.
+
+#### ESP (Stack Pointer)
+- Identifies the top of the stack, and it is modified each time a value is Push or Popped in the Stack.
+
+#### Endianness
+- Way of representing (storing) values in memory.
+- Most Significant Bit (MSB) in a binary number is the largest value. First number from the left.
+- Least Significant Bit (LSB) in a binary number is the lowest value. First number from the right.
+- Big-Endian - LSB is stored at the highest memory address. MSB is at the lowest memory address.
+- Little-Endian - LSB is stored at the lower memory address. MSB is at the highest memory address.
+- Endian is important when writing payloads for Buffer Overflow Exploits.
+
+
+#### No Operation Instruction (NOP)
+- Assembly language instruction that does nothing.
+- If NOP is encountered the program skips to next instruction.
+- NOP-sled is a technique used during Buffer Overflows. NOP-sled function is to fill a portion of the stack with NOPs allowing desired instruction to execute, which is placed after the NOP-sled.
+- Buffer Overflows must match the specific size and location the program is expecting.
