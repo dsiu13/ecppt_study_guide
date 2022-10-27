@@ -1,5 +1,17 @@
 # Buffer Overflow
 
+#### What is a Buffer?
+- A region of a memory used to temporarily store data while it is being moved from one place to another.
+- Data stored in a buffer is retrieved from an input device or before it's sent to an output device.
+- A buffer may be used when moving data between processes within a computer.
+- Buffers can be implemented in a fixed memory location in hardware—or by using a virtual data buffer in software, pointing at a location in the physical memory.
+- The data stored in a data buffer is stored on a physical storage medium. Buffers implemented in software use the faster RAM to store temporary data since it has faster access time compared to a hard disk drive.
+- Buffers are used when there is a difference between the rate at which data is received and the rate at which it can be processed, or if the rates are variable.
+
+#### What is a Register?
+- A processor register is a quickly accessible location available to a computer's processor.
+- Registers usually consist of a small amount of fast storage, and some registers have specific hardware functions, and may be read-only or write-only.
+- Registers are addressed by mechanisms other than main memory, but may be assigned a memory address.
 
 ### Registers
 | Name          | Purpose                                        | Abbreviation |
@@ -16,6 +28,7 @@
 - Base Pointer can also be referred to as Stack Base Pointer and Frame Pointer
 - *Size will be denoted by the character preceding the naming convention.
 - Instruction Pointer (IP) controls program execution by storing the address pointer of the next instruction to be executed.
+- The "X" in 16-bit replaced the H/L in 8-bit. H meaning High and L meaning Low.
 
 | Register Size | Accumulator |  Counter | Data | Base | Stack Pointer | Base Pointer | Source | Destination |
 |---------------|-------------|----------|------|------|---------------|--------------|--------|-------------|
@@ -25,6 +38,20 @@
 
 ### Process Memory
 - Divided into four sections: **Text**, **Data**, **Heap**, and **Stack**
+
+
+|                       |                 |
+|-----------------------|-----------------|
+| Lower Mem Addresses   |   0             |
+| Instructions          | .text           |
+| Initialized Var       | .data           |
+| Uninitalized Var      |  BSS            |
+|                       |  Heap           |
+|                       |  &darr;         |
+|                       |  &uarr;         |
+|                       |  Stack          |
+| Higher Mem Addresses  |  0xFFFFFFFF     |
+
 
 #### Text
 - Text is the instruction segment, and contains the instructions. This segment is Read-Only.
