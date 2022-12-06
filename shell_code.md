@@ -4,6 +4,8 @@
 - Download and execute shellcode do not immediately spawn a shell. A executable is downloaded first and then executed.
 
 ### Types of Shellcode
+- Local: Used by an attacker who has limited access to a machine, but can exploit a higher-priviledged process on that machine. If successful the attacker gains access to the machine with the same higher privileges as the targeted process.
+- Remote: Attacker wants to target a vulnerable process running on another machine on a local, intranet, or remote network. Successful execution can provide access to target machine across the network.
 - Remote Shellcodes are sub-divided based on this connection set up:
 1. Connect Back - Initiates a connection back to the attacker's machine.
 2. Bind Shellcode - Shellcode binds a shell to a certain port on which the attacker can connect.
@@ -19,3 +21,5 @@ The smaller Shellcode (stage 1) is executed, and this code grab the larger shell
 - **Omelet** makes use of multiple smaller shellcodes, which are combined together and executed. This can evade protections since each "egg" is small.
 
 # Encoding Shellcode
+- Shellcodes should be null free to guarantee execution.
+- Alphanumeric Shellcodes filter out all-non Alphanumeric bytes from the data
