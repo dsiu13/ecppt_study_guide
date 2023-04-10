@@ -23,5 +23,13 @@
 3. Execute prologue (updates EBP and ESP for the new stack frame)
 4. Allocate local vars
 
-### Buffer Overflows Methodology
-- Need to determine the specific space in the stack.
+### Finding a Buffer Overflows
+- Applications that make use of unsafe operations, but it is dependent on how the function is used. e.g strcpy, strcat, gets / fgets, scanf / fscanf, vsprintf, memcpy.
+- Functions that do not properly handle inputs(Input Validation or Input Boundary Checks) are vulnerable to overflows.
+- Overflows can also be used against languages that allow use of pointers or grant raw access to memory.
+- Buffer Overflows can be triggered by Buffer operations: User Input, Data from a Disk or Network.
+- Debuggers are often the best way to find any vulnerabilities. Fuzzers/Tracers track executions and data flow to find problems.
+
+##### Fuzzing
+- Fuzzing: Testing technique that gives invalid data as an input. Incorrect behavior will be discovered and documented through this process.
+- Fuzzing is exponential and therefore will be resource intensive.
