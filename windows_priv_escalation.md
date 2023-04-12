@@ -90,4 +90,29 @@
 #### Unquoted Service Path
 - Executables can be run without extensions. eg "whoami.exe" can be "whoami"
 - Executables can take arguments.
-- "C:\\Program Files\\Dir\\Program.exe
+- "C:\\Program Files\\Dir\\Program.exe" Windows may interpret this as an executable with args. Windows resolves this by checking each of the possibilities.
+- Exploitable by writing to a location Windows checks before the actual executable. This will cause the service to executable what we wrote at that location.
+
+#### Weak Registry Permissions
+- Windows stores entries for each service.
+- Misconfigurations with a Registry's ACL means it is possible to modify a service's configuration even if we cannot modify the service directly.
+
+#### Insecure Service Executables
+- If an Original Service Executable is modifiable then a reverse shell can replace that executable. **Create a Backup if it's a real system for restore"**
+
+### DLL Hijacking
+- Services may make use of Dynamic-Link Libraries for functionality. The DLL used will have the same level of privilege.
+- DLLs loaded with an absolute path may allow for privilege escalation if the User has writable permission for that DLL.
+- Most common way for Privilege Escalation using DLL is if the DLL called is missing, and the User can write to a directory within the path windows searches in
+
+# Registry
+- AutoRuns: Windows can be setup to run commands at startup with assigned privilege levels.
+- AutoRuns are configured in the Registry.
+- Writing to an AutoRun executable allows for privilege escalation if restarting is possible. Difficult method due to the requirements that are needed.
+
+# Passwords
+- Passwords that are stored insecurely, or stored in readable locations can be utilized for escalation.
+- Windows may store passwords in plaintext in the Registry.
+- "reg query HKLM /f password /t REG_SZ /s" or "reg query HKCU /f password /t REG_SZ /s" are commands that searches known locations where a Registry might store passwords.
+- Passwords may be left on configuration files themselves.
+- Manual searches can be performed using "dir /s *\pass*\ == *.config" 
