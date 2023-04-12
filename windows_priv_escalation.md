@@ -115,4 +115,4 @@
 - Windows may store passwords in plaintext in the Registry.
 - "reg query HKLM /f password /t REG_SZ /s" or "reg query HKCU /f password /t REG_SZ /s" are commands that searches known locations where a Registry might store passwords.
 - Passwords may be left on configuration files themselves.
-- Manual searches can be performed using "dir /s \*pass\* == *.config" 
+- Recursive searches can be performed using "dir /s \*pass\* == *.config" or "findstr /si password \*.xml \*.ini \*.txt"
