@@ -50,3 +50,44 @@
 - An enumeration tool that provides related info for escalation.
 - Does not search for misconfigurations.
 - [SeatBelt](https://github.com/GhostPack/Seatbelt)
+
+# Kernal Exploits
+- Kernals have control over the OS.
+- Kernal Exploits can result in execution at the System User level.
+- [Windows Exploit Suggester](https://github.com/bitsadmin/wesng)
+- [Windows Kernal Exploits](https://github.com/SecWiki/windows-kernel-exploits)
+- [Watson](https://github.com/rasta-mouse/Watson)
+
+### Find Kernal Exploits
+1. Enumeration Windows Version/ Patch Level (System Info)
+2. Find an exploit that works.
+3. Compile at run.
+- Kernal Exploits are unstable and may be single use only or cause system crashes. Last Resort for priv escalation.
+
+# Service Exploits
+- Services are programs that run in the background, which accept input or perform regular tasks.
+- Services that run with System Privileges with misconfigurations can lead to executions at the System level.
+- "sc.exe qc <name>" queries service configurations
+- "sc.exe query <name>" queries status of a service
+- "sc.exe config <name> <option>= <value>"
+- "net start/stop <name>" starts or stops a service
+
+### Service Misconfigurations
+- Methods to exploit misconfigurations.
+1. Insecure Service Properties
+2. Unquoted Service Path
+3. Weak Registry Permissions
+4. Insecure Service Executables
+5. DLL Hijacking
+
+#### Insecure Service Permissions
+- Each service has an ACL for service-specific permissions.
+- Not permissions are dangerous. e.g SERVICE_QUERY_CONFIG, SERVICE_QUERY_STATUS.
+- SERVICE_STOP, SERVICE_START, SERVICE_CHANGE_CONFIG, and SERVICE_ALL_ACCESS may be useful and/or dangerous.
+- If the User has the ability to change the configurations of a service that runs with System Privileges, the executable the service uses can be changed to one of our own.
+- Just because a service configuration can be changed, but you cannot stop or start the service then you may not be able to gain privilege escalation. If services cannot be stopped then a restart is your only option, which may not be possible.
+
+#### Unquoted Service Path
+- Executables can be run without extensions. eg "whoami.exe" can be "whoami"
+- Executables can take arguments.
+- "C:\\Program Files\\Dir\\Program.exe
