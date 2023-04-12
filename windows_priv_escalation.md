@@ -1,4 +1,18 @@
-# Windows
+# Windows Priv Escalation
+
+# Privilege Escalation Strategy
+- **Enumeration is key.**
+1. Check User and Groups. "whoami" and "net user <username>"
+2. Utilize tools such as WinPeas and SeatBelt.
+3. If scripts fail and the cause cannot be determined, manual commands can be attempted.
+4. Read through anything interesting or odd, analyze the results, and take notes of your analysis and findings.
+5. Create a Checklist of requirements needed priv escalation to avoid any potential Rabbit Holes.
+6. Check common file locations for any potential useful information.
+7. Low hanging fruit. Start with simpler and faster methods before moving on to more complex ones.
+8. Look at Admin Processes to see if any versions of the running services can be exploited.
+9. Check Ports for potential Port Forwarding.
+10. Kernal Exploits can be attempted as a last resort if shell spawning attempts have been exhausted.
+
 
 ### Accounts
 - User Accounts: A collection of settings or preferences bound to a unique id.
@@ -116,3 +130,51 @@
 - "reg query HKLM /f password /t REG_SZ /s" or "reg query HKCU /f password /t REG_SZ /s" are commands that searches known locations where a Registry might store passwords.
 - Passwords may be left on configuration files themselves.
 - Recursive searches can be performed using "dir /s \*pass\* == *.config" or "findstr /si password \*.xml \*.ini \*.txt"
+- Password Hashes are stored in the Security Account Manager (SAM). Hashes can be extracted and used if the SAM and SYSTEM files are readable.
+- SAM and SYSTEM files path: "C:\\Windows\\System32\\config"
+- Backups may exist at "C:\\Windows\\Repair or "C:\\Windows\\System32\\RegBack"
+- These files are locked while Windows is running.
+
+# Scheduled Tasks
+- Tasks run with the privilege of the User who created them. Admins can set the task to run as other Users.
+- Enumeration is difficult as a low privileged user.
+- List all tasks your User can see: "schtasks /query /fo LIST /v"
+- Powershell list: 'Get-ScheduledTask | where {$_.TsakPath -notlike "\\Microsoft*"}" | ft TaskName,TaskPath, State'
+- Scripts and Log Files can indicate if a scheduled task is being run.
+
+# Insecure GUI Apps (Citrix)
+- Older versions of Windows Users could be granted privileges to run certain GUI apps with admin privileges allowing for ways to spawn command prompts.
+- Spawned Command Prompts will run with the same privilege level as the parent process.
+
+# Start Up Apps
+- Users can define what apps they want to start using shortcuts to them in a specific directory.
+- Windows Startup Directory: "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp"
+- A Reverse Shell placed in this directory can grant privilege escalation when an admin logs in.
+
+# Installed Applications
+- "tasklist /V" will display all running programs.
+- SeatBelt can be used to find non-standard processes.
+- WinPeas can do this as Powershell
+
+# Hot Potato
+- Spoofing attack combined with an NTLM Relay Attack to gain System Privileges.
+- This attack tricks Windows into authenticating as the SYSTEM User to a fake http server, and then Credentials are sent to SMB to gain command execution.
+
+# Token Impersonation
+- Rotten Potato Exploit: Used a service account to intercept a SYSTEM ticket and use it to impersonate the SYSTEM User. Possible since Service Accounts have "SelmpersonatePrivilege" Privilege enabled.
+- Service Accounts are configured with "SeImpersonate" and "SeAssignPrimaryToken". This allows accounts to impersonate access tokens of others.
+- Any user with these privileges can run token impersonation exploits.
+
+# Port Forwarding
+- Port Forwarding allows for exploit code to be executable on kali, but the vuln program is listening on an internal portal.
+- plink.exe can be used for Port Forwarding.
+
+# Access Tokens
+- Access Tokens are special objects that store User's Id and privileges.
+- Primary Access Tokens are created on User Log in, and are bound to the current User session. New processes have the current session token copied and attached to it.
+- Impersonation Access Token are created when processes or thread need to run with security context of another user.
+
+# Token Duplication
+- Process/Threads can have their access tokens duplicated.
+- Impersonation Tokens can be duplicated into Primary Access Tokens this way.
+- Injection into a process can cause a token duplication, which can be used to spawn a separate process with the same privilege level as the original.
