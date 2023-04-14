@@ -20,6 +20,8 @@
 - Other default accounts may exist. e.g Network and Local service
 - Service Accounts: Used to run services. Cannot use Service accounts to sign into Windows.
 - System Accounts: Has the highest level priv of any local account.
+- Check User privilege level using: whoami priv
+- Ignore the "Disabled" state. Any listed privileges exist for the user.
 
 ### Groups
 - User accounts can belong to a group and can be in more than one group.
@@ -178,3 +180,16 @@
 - Process/Threads can have their access tokens duplicated.
 - Impersonation Tokens can be duplicated into Primary Access Tokens this way.
 - Injection into a process can cause a token duplication, which can be used to spawn a separate process with the same privilege level as the original.
+
+# Named Pipes
+- A process can create a named pipe, and other processes can open the named pipe to read or write from/to it.
+- The process that created the named pipe can impersonate the security context of a process to the connected named pipe.
+
+# Named Pipe impersonation
+- Creates Named pipe controlled by Meterpreter.
+- Creates a service with system privilege, which interacts with the named pipe.
+- Meterpreter impersonates the connected process to get the impersonation access token.
+- Impersonated Access Token is assigned to all meterpreter threads, which grants them system level privileges.
+
+# getsystem
+- Useful files: elevate.c, namedpipe.c, and tokendup.
